@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Data\Products.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Data\Products.json" />
+  </ItemGroup>
+
+</Project>
