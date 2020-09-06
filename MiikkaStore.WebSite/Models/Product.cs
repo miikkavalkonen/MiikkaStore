@@ -7,8 +7,8 @@ namespace MiikkaStore.WebSite.Models
 {
     public class Product
     {
-        public string Name;
-        public double Price;
-        public string Description;
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public string Description { get; set; }
     }
 }
