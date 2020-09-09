@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiikkaStore.WebSite.Models;
 using MiikkaStore.WebSite.Services;
 
 namespace MiikkaStore.WebSite
@@ -25,6 +28,8 @@ namespace MiikkaStore.WebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddControllers();
             services.AddTransient<MiikkaFileService>();
         }
 
@@ -52,6 +57,14 @@ namespace MiikkaStore.WebSite
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                //endpoints.MapGet("/products", (context) =>
+                //{
+                //    var products = app.ApplicationServices.GetService<MiikkaFileService>().GetProducts();
+                //    var json = JsonSerializer.Serialize<IEnumerable<Product>>(products);
+                //    return context.Response.WriteAsync(json);
+                //});
             });
         }
     }

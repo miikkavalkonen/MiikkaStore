@@ -13,27 +13,11 @@ namespace MiikkaStore.WebSite.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly MiikkaFileService _miikkaFileService;
 
-        public IEnumerable<Product> Products { get; set; }
-
-        public IndexModel(ILogger<IndexModel> logger, MiikkaFileService miikkaFileService)
+        public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-            _miikkaFileService = miikkaFileService;
         }
 
-        public void OnGet()
-        {
-            // Alusta tuotteet modeliin ja looppaa hötömölön puolella
-            try
-            {
-                Products = _miikkaFileService.GetProducts();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to initialize products", e);
-            }
-        }
     }
 }
