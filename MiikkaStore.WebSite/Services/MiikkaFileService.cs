@@ -33,5 +33,23 @@ namespace MiikkaStore.WebSite.Services
                 PropertyNameCaseInsensitive = true
                 });
         }
+
+        public void UpdateProduct(int productIndex, double priceUpdate)
+        {
+            var products = GetProducts().ToArray();
+
+            products[productIndex].Price = priceUpdate;
+
+            using (var outputStream = File.OpenWrite(FileName))
+            {
+                JsonSerializer.Serialize(
+                    new Utf8JsonWriter(outputStream, new JsonWriterOptions
+                    {
+                        Indented = true
+                    }),
+                    products
+                    );
+            }
+        }
     }
 }

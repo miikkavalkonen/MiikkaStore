@@ -9,24 +9,25 @@
 
 <h2>Products</h2>
 
-<table class="table">
+<table class="table" style="width: 80%;table-layout: fixed">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Info</th>
+            <th scope="col" style="width: 10%">#</th>
+            <th scope="col" style="width: 40%">Name</th>
+            <th scope="col" style="width: 30%">Price</th>
+            <th scope="col" style="width: 20%; text-align: center; vertical-align: middle;">Info</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var product in miikkaFileService.GetProducts())
         {
             index++;
-            <tr>
-                <th scope="row">@index</th>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>
+            <tr @onclick="(e => SelectProduct(product.Name))">
+                <th class="@(IsProductSelected(product.Name) ? "selected" : "")" scope="row">@index</th>
+                <td class="@(IsProductSelected(product.Name) ? "selected" : "")">@product.Name</td>
+                <td class="@(IsProductSelected(product.Name) ? "selected" : "")">@product.Price</td>
+                <td class="@(IsProductSelected(product.Name) ? "selected" : "")"
+                    style="text-align: center; vertical-align: middle;">
                     <button class="btn btn-primary" @onclick="(e => ShowInfo(product.Name))"
                             data-toggle="modal" data-target="#productModal">
                         More info
@@ -37,13 +38,13 @@
     </tbody>
 </table>
 
-@if (selectedProduct != null)
+@if (infoProduct != null)
 {
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="productTitle">@selectedProduct.Name</h5>
+                    <h5 class="modal-title" id="productTitle">@infoProduct.Name</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -51,7 +52,7 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <p class="card-text">@selectedProduct.Description</p>
+                            <p class="card-text">@infoProduct.Description</p>
                         </div>
                     </div>
                 </div>
@@ -63,12 +64,21 @@
 }
 
 @code {
-    Product selectedProduct;
+    Product infoProduct;
     string selectedProductName;
 
     void ShowInfo(string productName)
     {
+        infoProduct = miikkaFileService.GetProducts().FirstOrDefault(x => x.Name == productName);
+    }
+
+    void SelectProduct(string productName)
+    {
         selectedProductName = productName;
-        selectedProduct = miikkaFileService.GetProducts().FirstOrDefault(x => x.Name == productName);
+    }
+
+    bool IsProductSelected(string productName)
+    {
+        return selectedProductName == productName;
     }
 }

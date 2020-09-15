@@ -8,4 +8,21 @@
 
 @(await Html.RenderComponentAsync<ProductTable>(RenderMode.ServerPrerendered))
 
+<form method="post">
+    <div id="app">
+        <h3>Price update</h3>
+
+        <label>Product number</label>
+        <input type="number" v-model="productNumber" />
+
+        <label>Price update</label>
+        <input type="number" v-model="price" min="0" step=".01" />
+
+        <button v-on:click="priceUpdate" class="btn btn-secondary">Update!</button>
+
+    </div>
+</form>
+
 <script src="_framework/blazor.server.js"></script>
+<script src="~/lib/vue/vue.min.js"></script>
+<script src="~/js/Index.cshtml.js"></script>
